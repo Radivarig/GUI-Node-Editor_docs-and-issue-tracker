@@ -1,10 +1,10 @@
 # GUI Node Editor (Unity3d)
 
 ## Overview
-API for a custom GUI node editor that works both in editor window and exported in builds.  
+API for a custom GUI node based editor that works both in editor window and exported in builds.  
 
 ## Brief introduction
-`Node` holds the data and `NodeWindow` displays it.  
+Class `Node` holds the data and `NodeWindow` displays it.  
 Each node has lists `inputs` and `outputs` which hold left and right connection docks.  
 `Dock` has a type field to define which inputs can be connected to which outputs.  
 `NodeWindow` has `OnGUI` and `Update` overrides, one for drawing node content and other for node logic.  
@@ -37,6 +37,13 @@ Connection is shown as a *bezier curve* that is colored green if `node.isTrigger
 ##### Deconnecting
 Right click on a dock starts deconnecting.  
 Continuing to right click on the same dock will toggle deconnecting endpoints.  
+
+##### Sizing
+Window height is automatically calculated by default.  
+Both width and height can be set manually.  
+
+##### Renaming
+Double left click on title turns it into textField for renaming.  
 
 ##### Minimap
 Shown while dragging or panning.  
