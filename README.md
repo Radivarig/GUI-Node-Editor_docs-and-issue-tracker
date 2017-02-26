@@ -1,17 +1,14 @@
 # GUI Node Editor (Unity3d)
 
----
 ## Overview
 API for a custom GUI node editor that works both in editor window and exported in builds.  
 
----
 ## Brief introduction
 `Node` holds the data and `NodeWindow` displays it.  
 Each node has lists `inputs` and `outputs` which hold left and right connection docks.  
 `Dock` has a type field to define which inputs can be connected to which outputs.  
 `NodeWindow` has `OnGUI` and `Update` overrides, one for drawing node content and other for node logic.  
 
----
 ## Features
 
 ##### Menu
@@ -71,7 +68,6 @@ Example of save/load using `System.IO` is used in **EditorWindowNodeEditor.cs**.
 Where `System.IO` is not supported like for WebGL, you can still read from resources and use any approach to serialize the generated string.  
 Save files are located in **Resources/${editorName}Saves/**.  
 
----
 ## Getting started
 
 We will create three scripts of types:
@@ -196,11 +192,9 @@ public class NodeWindow_Example: NodeWindow {
 }
 ```
 
----
 ## Feedback
 All bug reports and suggestions are appreciated.  
 Please check the [issue tracker](https://github.com/Radivarig/GUINodeEditorDocs/issues), either open a new issue or contact me directly via `reslav.hollos@gmail.com`.  
 
----
 ## API
 todo
