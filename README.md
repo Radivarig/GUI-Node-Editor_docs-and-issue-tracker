@@ -70,7 +70,7 @@ Save files are located in **Resources/${editorName}Saves/**.
 
 ## Getting started
 
-We will create three scripts of types:
+We will create three scripts of types:  
 1. `EditorWindowNodeEditor` (creates a `NodeEditor: MonoBehaviour` that does not depend on `UnityEditor`).  
 2. `Node` menu node with `NodeWindow_Menu` window.  
 3. `Node` custom node with `NodeWindow` window.  
@@ -78,7 +78,7 @@ We will create three scripts of types:
 ### 1. Creating a custom node editor
 
 - In this file everything except the *NODE_EDITOR* region is standard code for drawing an `EditorWindow`.  
-- Save this as **ExampleEditor.cs**:
+- Save this as **ExampleEditor.cs**:  
 ```cs
 // in runtime UnityEditor does not exist so we wrap it in #if
 #if UNITY_EDITOR
@@ -88,7 +88,7 @@ using Type = System.Type;
 using GUINodeEditor;
 
 // EditorWindowNodeEditor inherits from EditorWindow
-public class ExampleEditorWindow : EditorWindowNodeEditor {
+public class ExampleEditorWindow: EditorWindowNodeEditor {
     // static reference to EditorWindow
     static ExampleEditorWindow editor;
 
@@ -118,12 +118,12 @@ Next, `Node` menu type is needed to be spawned on right click.
 
 ### 2. Creating a custom menu
 
-- Save this as **Node_Menu_Example.cs**:
+- Save this as **Node_Menu_Example.cs**:  
 ```cs
 using UnityEngine;
 using GUINodeEditor;
 
-public class Node_Menu_Example : Node {
+public class Node_Menu_Example: Node {
     public override void Init (Vector2 position) {
         // init with custom nodeWindow, set node reference
         Init (position, nodeWindow: new NodeWindow_Menu_Example (), node: this);
@@ -151,7 +151,7 @@ Next, create custom nodes to add to the menu.
 
 ### 3. Creating custom nodes
 
-- Save this as **Node_Example.cs**:
+- Save this as **Node_Example.cs**:  
 ```cs
 using UnityEngine;
 using GUINodeEditor;
