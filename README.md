@@ -1,91 +1,91 @@
 # GUI Node Editor
 
 ## Overview
-Unity package that provides API for creating custom GUI node based editors that work both in editor window and exported in builds.  
+Unity package that provides API for creating custom GUI node based editors that work both in editor window and exported in builds.
 
 ## Brief introduction
-Class `Node` holds the data and `NodeWindow` displays it.  
-Each node has lists `inputs` and `outputs` which hold left and right connection docks.  
-`Dock` has a type field to define which inputs can be connected to which outputs.  
-`NodeWindow` has `OnGUI` and `Update` overrides, one for drawing node content and other for node logic.  
+- Class `Node` holds the data and `NodeWindow` displays it.
+- Each node has lists `inputs` and `outputs` which hold left and right connection docks.
+- `Dock` has a type field to define which inputs can be connected to which outputs.
+- `NodeWindow` has `OnGUI` and `Update` overrides, one for drawing node content and other for node logic.
 
 ## Features
 
 ##### Menu
-Right click on background spawns a menu that can create your node instances.  
-Right click on a node title fills `clickedWindow` field for node specific menus.  
+- Right click on background spawns a menu that can create your node instances.
+- Right click on a node title fills `clickedWindow` field for node specific menus.
 
 ##### Selecting
-Left click drag draws a selection box that adds overlapping windows to `nodeEditor.selectedWindows`.  
-Selected windows have a highlighted border, `onNormal` texture is used.  
-Shift and click toggles selection.  
-Background click clears selection.  
+- Left click drag draws a selection box that adds overlapping windows to `nodeEditor.selectedWindows`.
+- Selected windows have a highlighted border, `onNormal` texture is used.
+- Shift and click toggles selection.
+- Background click clears selection.
 
 ##### Dragging
-Left click drag of node title will drag all selected windows.  
+- Left click drag of node title will drag all selected windows.
 
 ##### Panning
-Right click drag will pane all windows and the grid.  
-Deconnection and selection are not canceled while panning.  
+- Right click drag will pane all windows and the grid.
+- Deconnection and selection are not canceled while panning.
 
 ##### Connecting
-Allowed docks are of the matching type and are highlighted **green**.  
-If the dock is not allowed but has a sibling dock that is, it will be highlighted **yellow** and the connection will be redirected to that sibling.  
-Connecting is canceled on right click on background.  
-Connection is shown as a *bezier curve* that is colored green if `node.isTriggered` is set to true.  
+- Allowed docks are of the matching type and are highlighted **green**.
+- If the dock is not allowed but has a sibling dock that is, it will be highlighted **yellow** and the connection will be redirected to that sibling.
+- Connecting is canceled on right click on background.
+- Connection is shown as a *bezier curve* that is colored green if `node.isTriggered` is set to true.
 
 ##### Deconnecting
-Right click on a dock starts deconnecting.  
-Continuing to right click on the same dock will toggle deconnecting endpoints.  
+- Right click on a dock starts deconnecting.
+- Continuing to right click on the same dock will toggle deconnecting endpoints.
 
 ##### Sizing
-Window height is automatically calculated by default.  
-Both width and height can be set manually.  
+- Window height is automatically calculated by default.
+- Both width and height can be set manually.
 
 ##### Renaming
-Double left click on title turns it into textField for renaming.  
+- Double left click on title turns it into textField for renaming.
 
 ##### Minimap
-Shown while dragging or panning.  
-Draws nodes position, connections and title in reference to the screen.  
+- Shown while dragging or panning.
+- Draws nodes position, connections and title in reference to the screen.
 
 ##### Grid
-Moves with panning.  
-When dragging ends, windows position is snapped to grid.  
+- Moves with panning.
+- When dragging ends, windows position is snapped to grid.
 
 ##### Styling
-Custom `GUISkin` can be specified.  
-Background, grid and dock textures can be specified.  
-Window color is set by `nodeWindow.backgroundColor`.  
+- Custom `GUISkin` can be specified.
+- Background, grid and dock textures can be specified.
+- Window color is set by `nodeWindow.backgroundColor`.
 
 ##### Popups
-Dropdown used to switch enums.  
-Can be drawn outside of the parent area where its button is rendered.  
+- Dropdown used to switch enums.
+- Can be drawn outside of the parent area where its button is rendered.
 
 ##### Tooltip
-Function `Tooltip ("string")` called after GUI element automatically detects last rect.  
-All docks have a tooltip showing their type.  
+- Function `Tooltip ("string")` called after GUI element automatically detects last rect.
+- All docks have a tooltip showing their type.
 
 ##### Runtime
-Attach **RuntimeNodeEditor.cs** on the gameObject holding **NodeEditor.cs**.  
+- Attach **RuntimeNodeEditor.cs** on the gameObject holding **NodeEditor.cs**.
 
 ##### Serialization
-Third party MIT licenced [FullSerializer](https://github.com/jacobdufault/fullserializer) is used to serialize the editor to a text file.  
-Example of save/load using `System.IO` is used in **EditorWindowNodeEditor.cs**.  
-Where `System.IO` is not supported like for WebGL, you can still read from resources and use any approach to serialize the generated string.  
-Save files are located in **Resources/${editorName}Saves/**.  
+- Third party MIT licenced [FullSerializer](https://github.com/jacobdufault/fullserializer) is used to serialize the editor to string.
+- Example of save/load using `System.IO` is used in **EditorWindowNodeEditor.cs**.
+- Where `System.IO` is not supported like for WebGL, you can still read from resources and use any approach to serialize the generated string.
+- Save files are located in **Resources/${editorName}Saves/**.
 
 ## Getting started
 
-We will create three scripts of types:  
-1. `EditorWindowNodeEditor` (creates a `NodeEditor: MonoBehaviour` that does not depend on `UnityEditor`).  
-2. `Node` menu node with `NodeWindow_Menu` window.  
-3. `Node` custom node with `NodeWindow` window.  
+We will create three scripts of types:
+1. `EditorWindowNodeEditor` (creates a `NodeEditor: MonoBehaviour` that does not depend on `UnityEditor`).
+2. `Node` menu node with `NodeWindow_Menu` window.
+3. `Node` custom node with `NodeWindow` window.
 
 ### 1. Creating a custom node editor
 
-- In this file everything except the *NODE_EDITOR* region is standard code for drawing an `EditorWindow`.  
-- Save this as **ExampleEditor.cs**:  
+- In this file everything except the *NODE_EDITOR* region is standard code for drawing an `EditorWindow`.
+- Save this as **ExampleEditor.cs**:
 ```cs
 // in runtime UnityEditor does not exist so we wrap it in #if
 #if UNITY_EDITOR
@@ -119,13 +119,13 @@ public class ExampleEditorWindow: EditorWindowNodeEditor {
 #endif
 
 ```
-- It will appear in the menu `Window > NewNodeEditor`, open it and nest as a tab in Unity.  
+- It will appear in the menu `Window > NewNodeEditor`, open it and nest as a tab in Unity.
 
-Next, `Node` menu type is needed to be spawned on right click.  
+Next, `Node` menu type is needed to be spawned on right click.
 
 ### 2. Creating a custom menu
 
-- Save this as **Node_Menu_Example.cs**:  
+- Save this as **Node_Menu_Example.cs**:
 ```cs
 using UnityEngine;
 using GUINodeEditor;
@@ -152,13 +152,13 @@ public class NodeWindow_Menu_Example: NodeWindow_Menu {
     }
 }
 ```
-- Set `Node_Menu_Example` as return value of `GetMenuNodeType` in **ExampleNodeEditor.cs**.  
+- Set `Node_Menu_Example` as return value of `GetMenuNodeType` in **ExampleNodeEditor.cs**.
 
-Next, create custom nodes to add to the menu.  
+Next, create custom nodes to add to the menu.
 
 ### 3. Creating custom nodes
 
-- Save this as **Node_Example.cs**:  
+- Save this as **Node_Example.cs**:
 ```cs
 using UnityEngine;
 using GUINodeEditor;
@@ -200,8 +200,8 @@ public class NodeWindow_Example: NodeWindow {
 ```
 
 ## Feedback
-All bug reports and suggestions are appreciated.  
-Please check the [issue tracker](https://github.com/Radivarig/GUINodeEditorDocs/issues), either open a new issue or contact me directly via `reslav.hollos@gmail.com`.  
+All bug reports and suggestions are appreciated.
+Please check the [issue tracker](https://github.com/Radivarig/GUINodeEditorDocs/issues), either open a new issue or contact me directly via `reslav.hollos@gmail.com`.
 
 ## API
 todo
