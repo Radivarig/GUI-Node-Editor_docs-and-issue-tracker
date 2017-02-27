@@ -1,7 +1,7 @@
-# GUI Node Editor (Unity3d)
+# GUI Node Editor
 
 ## Overview
-API for a custom GUI node based editor that works both in editor window and exported in builds.  
+Unity package that provides API for creating custom GUI node based editors that work both in editor window and exported in builds.  
 
 ## Brief introduction
 Class `Node` holds the data and `NodeWindow` displays it.  
