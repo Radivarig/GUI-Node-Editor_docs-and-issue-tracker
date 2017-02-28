@@ -21,6 +21,9 @@ Unity package that provides API for creating custom GUI node based editors that 
 - Shift and click toggles selection.
 - Background click clears selection.
 
+##### Deleting
+- Del deletes all selected nodes.
+
 ##### Dragging
 - Left click drag of node title will drag all selected windows.
 
@@ -51,6 +54,8 @@ Unity package that provides API for creating custom GUI node based editors that 
 
 ##### Grid
 - Moves with panning.
+
+#### Snapping
 - When dragging ends, windows position is snapped to grid.
 
 ##### Styling
