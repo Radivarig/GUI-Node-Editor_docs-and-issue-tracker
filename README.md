@@ -34,7 +34,7 @@ Unity package that provides API for creating custom GUI node based editors that 
 ##### Connecting
 - Allowed docks are of the matching type and are highlighted **green**.
 - If the dock is not allowed but has a sibling dock that is, it will be highlighted **yellow** and the connection will be redirected to that sibling.
-- Connecting is canceled on right click on background.
+- Connecting is canceled on right click on background or left double click on background.
 - Connection is shown as a *bezier curve* that is colored green if `node.isTriggered` is set to true.
 
 ##### Deconnecting
