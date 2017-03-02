@@ -1,56 +1,56 @@
 # GUI Node Editor
 
-## Overview
-Unity package that provides API for creating custom GUI node based editors that work both in editor window and exported in builds.
-
-## Brief introduction
-- Class `Node` holds the data and `NodeWindow` displays it.
-- Each node has lists `inputs` and `outputs` which hold left and right connection docks.
-- `Dock` has a type field to define which inputs can be connected to which outputs.
-- `NodeWindow` has `OnGUI` and `Update` overrides, one for drawing node content and other for node logic.
+## Introduction
+- GUI Node Editor is an API for creating custom GUI/GUILayout node based editors that work both in editor window and exported in builds.
+- Intended usage is to derrive from `Node` class that holds the data and `Node_Window` class that displays that data.
+- Special node role is the menu node whose window derrives from `NodeWindow_Menu`. It lists all nodes intended to be used in the node editor and is spawned on right click.
+- Each node holds information about its docks (left input and right output boxes) and each dock holds information about other docks it is connected to, its type etc.
+- Role of each node is meant to be implemented however you like.
+- You can check the demo scene which is the one from WebGL demo, then start from scratch by following the **Getting Started** instructions below.
 
 ## Features
 
 ##### Menu
-- Right click on background spawns a menu that can create your node instances.
-- Right click on a node title fills `clickedWindow` field for node specific menus.
+- <Right Click> on background spawns a menu that creates your node instances.
+- <Right Click> on node title fills `clickedWindow` field which you can use for node specific menus.
 
 ##### Selecting
-- Left click drag draws a selection box that adds overlapping windows to `nodeEditor.selectedWindows`.
-- Selected windows have a highlighted border, `onNormal` texture is used.
-- Shift and click toggles selection.
-- Background click clears selection.
-
-##### Deleting
-- Del deletes all selected nodes.
+- <Left Click Drag> draws a selection box that adds nodes it overlaps to `nodeEditor.selectedWindows`.
+- Selected nodes have a highlighted border, `onNormal` texture is used.
+- <Shift + Click> on node toggles selection for that node.
+- <Click> on background clears selection.
 
 ##### Dragging
-- Left click drag of node title will drag all selected windows.
+- <Left Click Drag> of node title will drag all selected windows.
 
 ##### Panning
-- Right click drag will pane all windows and the grid.
+- <Right Click Drag> will pane all windows and the grid.
 - Deconnection and selection are not canceled while panning.
 
+##### Deleting
+- <Del> deletes all selected nodes.
+
 ##### Connecting
-- Allowed docks are of the matching type and are highlighted **green**.
-- If the dock is not allowed but has a sibling dock that is, it will be highlighted **yellow** and the connection will be redirected to that sibling.
-- Connecting is canceled on right click on background or left double click on background.
-- Connection is shown as a *bezier curve* that is colored green if `node.isTriggered` is set to true.
+- Connection is shown as a *bezier curve* that is colored green if `node.isTriggered` is set to `true`.
+- Only docks whose types match can be connected.
+- While connecting, these docks be highlighted **green**.
+- If the dock does not match the type but has a sibling dock that does, it will be highlighted **yellow** and connecting will redirect the connection to that sibling dock.
+- <Right Click> or <Left Double Click> on background cancels connecting.
 
 ##### Deconnecting
-- Right click on a dock starts deconnecting.
-- Continuing to right click on the same dock will toggle deconnecting endpoints.
+- <Right Click> on a dock starts deconnecting.
+- Continuous <Right Clicking> on the same dock will toggle trough deconnecting endpoints.
 
 ##### Sizing
 - Window height is automatically calculated by default.
-- Both width and height can be set manually.
+- Both width and height can be set manually (see API).
 
 ##### Renaming
-- Double left click on title turns it into textField for renaming.
+- <Double Left Click> on node title switches the title to a textField for renaming.
 
 ##### Minimap
 - Shown while dragging or panning.
-- Draws nodes position, connections and title in reference to the screen.
+- It draws nodes position, connections and title in reference to the screen.
 
 ##### Grid
 - Moves with panning.
@@ -59,26 +59,25 @@ Unity package that provides API for creating custom GUI node based editors that 
 - When dragging ends, windows position is snapped to grid.
 
 ##### Styling
-- Custom `GUISkin` can be specified.
-- Background, grid and dock textures can be specified.
-- Window color is set by `nodeWindow.backgroundColor`.
+- Visuals can be set from the NodeEditor inspector config like `GUISkin`, background, grid and dock textures, connection colors etc.
+- Window color can be set by `nodeWindow.backgroundColor`.
 
 ##### Popups
-- Dropdown used to switch enums.
+- GUI Dropdown used to switch enums.
 - Can be drawn outside of the parent area where its button is rendered.
 
 ##### Tooltip
-- Function `Tooltip ("string")` called after GUI element automatically detects last rect.
+- Calling `DrawTooltip ("string")` right after a GUI element detects last rect and shows a tooltip when that rect is hovered.
 - All docks have a tooltip showing their type.
 
 ##### Runtime
-- Attach **RuntimeNodeEditor.cs** on the gameObject holding **NodeEditor.cs**.
+- Attaching **RuntimeNodeEditor.cs** on the gameObject holding **NodeEditor.cs** will render the editor in play mode.
 
 ##### Serialization
-- Third party MIT licenced [FullSerializer](https://github.com/jacobdufault/fullserializer) is used to serialize the editor to string.
-- Example of save/load using `System.IO` is used in **EditorWindowNodeEditor.cs**.
-- Where `System.IO` is not supported like for WebGL, you can still read from resources and use any approach to serialize the generated string.
-- Save files are located in **Resources/${editorName}Saves/**.
+- Save files are located in **/Resources/${editorName}Saves/**.
+- Third party MIT licenced **FullSerializer** https://github.com/jacobdufault/fullserializer is used to serialize the editor to string.
+- Example of save/load using `System.IO` is located in **EditorWindowNodeEditor.cs**.
+- In cases where `System.IO` is not supported like for WebGL, you can still read from `Resources` folder and use any other approach to serialize the generated string.
 
 ## Getting started
 
@@ -138,7 +137,7 @@ using GUINodeEditor;
 public class Node_Menu_Example: Node {
     public override void Init (Vector2 position) {
         // init with custom nodeWindow, set node reference
-        Init (position, nodeWindow: new NodeWindow_Menu_Example (), node: this);
+        Init (position, nodeWindow: new NodeWindow_Menu_Example ());
     }
 }
 public class NodeWindow_Menu_Example: NodeWindow_Menu {
@@ -171,7 +170,7 @@ using GUINodeEditor;
 public class Node_Example: Node {
     public override void Init (Vector2 position) {
         // if you do not plan to change the title from OnGUI you can set it here
-        Init (position, nodeWindow: new NodeWindow_Example (), node: this, title: "Example");
+        Init (position, nodeWindow: new NodeWindow_Example (), title: "Example");
 
         // these will create input and output dock
         AddInput (typeof(string), "input_name");
@@ -204,9 +203,18 @@ public class NodeWindow_Example: NodeWindow {
 }
 ```
 
+## Contact
+Email: `reslav.hollos@gmail.com`.
+
 ## Feedback
-All bug reports and suggestions are appreciated.
-Please check the [issue tracker](https://github.com/Radivarig/GUINodeEditorDocs/issues), either open a new issue or contact me directly via `reslav.hollos@gmail.com`.
+- For bug reports please check the issue tracker at https://github.com/Radivarig/GUI-Node-Editor_docs-and-issue-tracker/issues, you can open a new issue there or contact me directly via email.
+- All suggestions are appreciated and will improve the quality of this asset.
 
 ## API
-todo
+
+API is generated with **Doxygen** and is located in a separate file `GUINodeEditor_${version}_API.pdf`.
+
+> Keep in mind that this is the first release and some things might be missing. If you'd like to have something added just drop me an email with a suggestion.
+
+---
+Cheers, Reslav
