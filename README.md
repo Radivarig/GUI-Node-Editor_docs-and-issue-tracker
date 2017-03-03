@@ -11,42 +11,42 @@
 ## Features
 
 ##### Menu
-- <Right Click> on background spawns a menu that creates your node instances.
-- <Right Click> on node title fills `clickedWindow` field which you can use for node specific menus.
+- [Right Click] on background spawns a menu that creates your node instances.
+- [Right Click] on node title fills `clickedWindow` field which you can use for node specific menus.
 
 ##### Selecting
-- <Left Click Drag> draws a selection box that adds nodes it overlaps to `nodeEditor.selectedWindows`.
+- [Left Click Drag] draws a selection box that adds nodes it overlaps to `nodeEditor.selectedWindows`.
 - Selected nodes have a highlighted border, `onNormal` texture is used.
-- <Shift + Click> on node toggles selection for that node.
-- <Click> on background clears selection.
+- [Shift + Click] on node toggles selection for that node.
+- [Click] on background clears selection.
 
 ##### Dragging
-- <Left Click Drag> of node title will drag all selected windows.
+- [Left Click Drag] of node title will drag all selected windows.
 
 ##### Panning
-- <Right Click Drag> will pane all windows and the grid.
+- [Right Click Drag] will pane all windows and the grid.
 - Deconnection and selection are not canceled while panning.
 
 ##### Deleting
-- <Del> deletes all selected nodes.
+- [Del] deletes all selected nodes.
 
 ##### Connecting
 - Connection is shown as a *bezier curve* that is colored green if `node.isTriggered` is set to `true`.
 - Only docks whose types match can be connected.
 - While connecting, these docks be highlighted **green**.
 - If the dock does not match the type but has a sibling dock that does, it will be highlighted **yellow** and connecting will redirect the connection to that sibling dock.
-- <Right Click> or <Left Double Click> on background cancels connecting.
+- [Right Click] or [Left Double Click] on background cancels connecting.
 
 ##### Deconnecting
-- <Right Click> on a dock starts deconnecting.
-- Continuous <Right Clicking> on the same dock will toggle trough deconnecting endpoints.
+- [Right Click] on a dock starts deconnecting.
+- Continuous [Right Clicking] on the same dock will toggle trough deconnecting endpoints.
 
 ##### Sizing
 - Window height is automatically calculated by default.
 - Both width and height can be set manually (see API).
 
 ##### Renaming
-- <Double Left Click> on node title switches the title to a textField for renaming.
+- [Double Left Click] on node title switches the title to a textField for renaming.
 
 ##### Minimap
 - Shown while dragging or panning.
